@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Famous D'Cafe — Naihati</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Outfit:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:#080608; --deep:#0e0a12; --purple:#2d1b4e; --violet:#4a2080;
+    --accent:#9b59b6; --accent2:#c39bd3; --gold:#e8c56a; --gold2:#f5d98a;
+    --cream:#f0e8f5; --warm:#d8c8e8;
+    --glass:rgba(255,255,255,0.04); --glass-border:rgba(255,255,255,0.08);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--black);color:var(--cream);font-family:'Outfit',sans-serif;overflow-x:hidden;cursor:none;}
+  .cursor{width:10px;height:10px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform 0.12s ease;}
+  .cursor-ring{width:38px;height:38px;border:1.5px solid var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);opacity:0.6;}
+  @media(pointer:coarse){body{cursor:auto;}.cursor,.cursor-ring{display:none;}}
+  ::-webkit-scrollbar{width:3px;}
+  ::-webkit-scrollbar-track{background:var(--black);}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(var(--violet),var(--gold));border-radius:4px;}
+
+  /* ─── NAV ─── */
+  nav{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(8,6,8,0.97),transparent);transition:all 0.4s;}
+  nav.scrolled{background:rgba(8,6,8,0.96);backdrop-filter:blur(24px);border-bottom:1px solid rgba(155,89,182,0.15);padding:14px 5%;}
+  .nav-logo{font-family:'Dancing Script',cursive;font-size:clamp(1.4rem,3vw,2rem);color:var(--gold);text-shadow:0 0 30px rgba(232,197,106,0.4);text-decoration:none;}
+  .nav-logo span{color:var(--accent2);}
+  .nav-links{display:flex;gap:2rem;list-style:none;}
+  .nav-links a{color:var(--warm);text-decoration:none;font-size:0.78rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;position:relative;transition:color 0.3s;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width 0.3s;}
+  .nav-links a:hover{color:var(--gold);}
+  .nav-links a:hover::after{width:100%;}
+  .nav-order{background:linear-gradient(135deg,var(--violet),var(--accent));color:#fff;padding:10px 24px;border:none;font-family:'Outfit',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:all 0.3s;box-shadow:0 0 20px rgba(155,89,182,0.3);}
+  .nav-order::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold),#c0932a);transform:translateX(-100%);transition:transform 0.4s ease;}
+  .nav-order:hover::before{transform:translateX(0);}
+  .nav-order span{position:relative;z-index:1;color:#fff;}
+  .nav-order:hover span{color:var(--black);}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+  .hamburger span{width:24px;height:1.5px;background:var(--gold);display:block;transition:all 0.35s;}
+  .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+  .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+  /* ─── MOBILE MENU ─── */
+  .mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(8,6,8,0.98);backdrop-filter:blur(30px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2rem;opacity:0;pointer-events:none;transition:opacity 0.4s ease;}
+  .mobile-menu.open{opacity:1;pointer-events:all;display:flex;}
+  .mobile-menu a{color:var(--warm);text-decoration:none;font-size:1.5rem;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:2px;transition:color 0.3s;text-transform:uppercase;}
+  .mobile-menu a:hover{color:var(--gold);}
+  .mobile-menu .mob-order{margin-top:1rem;background:linear-gradient(135deg,var(--violet),var(--accent));color:#fff;padding:14px 40px;font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;}
+  .mobile-menu .mob-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:1px solid rgba(255,255,255,0.15);color:var(--cream);width:44px;height:44px;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+  .mobile-menu .mob-close:hover{border-color:var(--gold);color:var(--gold);}
+
+  /* ─── GRAIN ─── */
+  .grain{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  /* ─── HERO ─── */
+  #hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .hero-slides{position:absolute;inset:0;z-index:0;}
+  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.4s cubic-bezier(0.4,0,0.2,1),transform 8s ease;transform:scale(1.07);}
+  .hero-slide.active{opacity:1;transform:scale(1);}
+  .hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,6,8,0.25) 0%,rgba(8,6,8,0.1) 35%,rgba(8,6,8,0.88) 100%),radial-gradient(ellipse at center,transparent 25%,rgba(8,6,8,0.5) 100%);}
+  .hero-arrow{position:absolute;top:50%;z-index:4;width:46px;height:46px;border:1px solid rgba(232,197,106,0.35);background:rgba(8,6,8,0.55);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;transform:translateY(-50%);color:var(--gold);font-size:1.3rem;}
+  .hero-arrow:hover{border-color:var(--gold);background:rgba(74,32,128,0.4);}
+  .hero-arrow.left{left:2rem;} .hero-arrow.right{right:2rem;}
+  .hero-dots{position:absolute;bottom:5.5rem;left:50%;transform:translateX(-50%);z-index:4;display:flex;gap:10px;align-items:center;}
+  .hero-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;transition:all 0.4s;}
+  .hero-dot.active{background:var(--gold);width:24px;border-radius:3px;}
+  .hero-content{position:relative;z-index:3;text-align:center;padding:0 5%;max-width:950px;}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(155,89,182,0.12);border:1px solid rgba(155,89,182,0.35);padding:6px 20px;font-size:0.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent2);margin-bottom:1.5rem;animation:fadeSlideDown 0.8s ease both;backdrop-filter:blur(12px);}
+  .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,10vw,8.5rem);font-weight:700;line-height:0.92;margin-bottom:1.5rem;animation:fadeSlideUp 0.9s 0.2s ease both;}
+  .hero-title .line1{display:block;color:var(--cream);}
+  .hero-title .line2{display:block;font-style:italic;background:linear-gradient(135deg,var(--gold),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .hero-tagline{font-size:clamp(0.85rem,2vw,1rem);font-weight:300;letter-spacing:3px;color:rgba(240,232,245,0.65);margin-bottom:2.5rem;height:2em;animation:fadeSlideUp 0.9s 0.4s ease both;transition:all 0.5s ease;}
+  .hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeSlideUp 0.9s 0.6s ease both;}
+  .hero-scroll{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeSlideUp 1s 1s ease both;}
+  .scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollAnim 2s infinite;}
+  @keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+  .scroll-text{font-size:0.6rem;letter-spacing:3px;color:rgba(232,197,106,0.5);}
+
+  /* ─── BUTTONS ─── */
+  .btn-primary{position:relative;padding:15px 38px;background:linear-gradient(135deg,var(--violet),var(--accent));color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:0.82rem;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 0 30px rgba(155,89,182,0.5);text-decoration:none;display:inline-block;animation:pulsePurple 2.5s infinite 1s;}
+  @keyframes pulsePurple{0%,100%{box-shadow:0 0 25px rgba(155,89,182,0.4);}50%{box-shadow:0 0 55px rgba(155,89,182,0.7),0 0 90px rgba(155,89,182,0.2);}}
+  .btn-primary:hover{transform:translateY(-3px);}
+  .btn-outline{padding:14px 38px;background:transparent;color:var(--cream);font-family:'Outfit',sans-serif;font-weight:500;font-size:0.82rem;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(240,232,245,0.25);cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-block;backdrop-filter:blur(10px);}
+  .btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+  .btn-glow{padding:17px 48px;background:linear-gradient(135deg,var(--violet),var(--accent));color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:transform 0.3s;text-decoration:none;display:inline-block;animation:glowPulse 2.5s infinite;}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(155,89,182,0.5),0 0 40px rgba(155,89,182,0.2);}50%{box-shadow:0 0 50px rgba(155,89,182,0.8),0 0 90px rgba(155,89,182,0.4),0 0 130px rgba(232,197,106,0.1);}}
+  .btn-glow:hover{transform:translateY(-4px) scale(1.02);}
+
+  /* ─── SECTION HEADERS ─── */
+  .sec-header{text-align:center;margin-bottom:4rem;}
+  .sec-overline{font-size:0.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--accent2);margin-bottom:0.8rem;display:block;}
+  .sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:700;line-height:1.05;color:var(--cream);}
+  .sec-title em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-line{width:50px;height:1.5px;background:linear-gradient(to right,var(--violet),var(--gold));margin:1.2rem auto 0;}
+
+  /* ─── STATS ─── */
+  #stats{padding:4rem 5%;background:linear-gradient(135deg,rgba(74,32,128,0.08),rgba(232,197,106,0.04));border-top:1px solid rgba(155,89,182,0.1);border-bottom:1px solid rgba(155,89,182,0.1);}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:900px;margin:0 auto;}
+  .stat-item{text-align:center;}
+  .stat-num{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:700;background:linear-gradient(135deg,var(--gold),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+  .stat-label{font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;color:rgba(240,232,245,0.4);margin-top:0.5rem;}
+
+  /* ─── MARQUEE ─── */
+  #menu-preview{padding:6rem 0 4rem;overflow:hidden;}
+  .marquee-track{display:flex;gap:1.5rem;animation:marqueeScroll 22s linear infinite;width:max-content;margin-bottom:1.5rem;}
+  .marquee-track:hover{animation-play-state:paused;}
+  @keyframes marqueeScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  .menu-card{flex-shrink:0;width:195px;height:255px;position:relative;overflow:hidden;cursor:pointer;border:1px solid rgba(155,89,182,0.15);}
+  .menu-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;filter:brightness(0.82) saturate(1.15);}
+  .menu-card:hover img{transform:scale(1.12);}
+  .menu-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,6,8,0.92) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px;}
+  .menu-card-name{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream);font-weight:700;}
+  .menu-card-price{color:var(--gold);font-size:0.85rem;font-weight:600;}
+  .menu-preview-cta{text-align:center;margin-top:3rem;padding:0 5%;}
+
+  /* ─── FULL MENU ─── */
+  #full-menu{padding:6rem 5%;background:var(--deep);}
+  .menu-categories{display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem;}
+  .cat-btn{padding:8px 22px;background:transparent;border:1px solid rgba(155,89,182,0.2);color:rgba(240,232,245,0.5);font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;}
+  .cat-btn.active,.cat-btn:hover{background:linear-gradient(135deg,var(--violet),var(--accent));border-color:transparent;color:#fff;}
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto;}
+  .menu-item{background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(10px);transition:transform 0.4s,border-color 0.3s,box-shadow 0.4s;position:relative;overflow:hidden;cursor:pointer;}
+  .menu-item:hover{transform:translateY(-6px);border-color:rgba(155,89,182,0.3);box-shadow:0 20px 50px rgba(74,32,128,0.3);}
+  .menu-item-img{width:100%;height:185px;overflow:hidden;position:relative;}
+  .menu-item-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;filter:brightness(0.88) saturate(1.1);}
+  .menu-item:hover .menu-item-img img{transform:scale(1.08);}
+  .img-preview-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,6,8,0);transition:background 0.3s;cursor:pointer;}
+  .img-preview-btn:hover{background:rgba(8,6,8,0.45);}
+  .img-preview-icon{width:46px;height:46px;border:1.5px solid rgba(255,255,255,0.75);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;opacity:0;transform:scale(0.6);transition:all 0.35s;}
+  .img-preview-btn:hover .img-preview-icon{opacity:1;transform:scale(1);}
+  .menu-item-body{padding:1.2rem;}
+  .item-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;margin-bottom:0.5rem;}
+  .item-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--cream);font-weight:700;}
+  .item-price{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--gold);font-weight:700;white-space:nowrap;}
+  .item-desc{font-size:0.8rem;color:rgba(240,232,245,0.45);line-height:1.6;margin-bottom:0.8rem;}
+  .item-badge{font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;background:rgba(74,32,128,0.3);color:var(--accent2);border:1px solid rgba(155,89,182,0.3);display:inline-block;}
+
+  /* ─── MENU LIGHTBOX ─── */
+  #lightbox{position:fixed;inset:0;z-index:99000;background:rgba(8,6,8,0.96);display:none;align-items:center;justify-content:center;backdrop-filter:blur(24px);}
+  #lightbox.open{display:flex;}
+  .lb-inner{position:relative;max-width:90vw;max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:1.2rem;}
+  .lb-img{max-width:85vw;max-height:70vh;object-fit:contain;border:1px solid rgba(155,89,182,0.3);box-shadow:0 0 80px rgba(155,89,182,0.35);transition:opacity 0.35s,transform 0.35s;}
+  .lb-caption{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--cream);text-align:center;}
+  .lb-price-tag{color:var(--gold);font-size:0.95rem;margin-top:4px;}
+  .lb-close{position:absolute;top:-3.2rem;right:0;width:36px;height:36px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:var(--cream);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+  .lb-close:hover{border-color:var(--gold);color:var(--gold);}
+  .lb-nav{position:absolute;top:50%;width:42px;height:42px;border:1px solid rgba(232,197,106,0.3);background:rgba(8,6,8,0.7);color:var(--gold);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transform:translateY(-50%);transition:all 0.3s;backdrop-filter:blur(10px);}
+  .lb-nav:hover{border-color:var(--gold);background:rgba(74,32,128,0.5);}
+  .lb-prev{left:-3.8rem;} .lb-next{right:-3.8rem;}
+  .lb-counter{position:absolute;top:-3.2rem;left:0;font-size:0.7rem;letter-spacing:2px;color:rgba(240,232,245,0.4);}
+
+  /* ─── GALLERY LIGHTBOX ─── */
+  #galleryLightbox{position:fixed;inset:0;z-index:99000;background:rgba(8,6,8,0.97);display:none;align-items:center;justify-content:center;backdrop-filter:blur(30px);}
+  #galleryLightbox.open{display:flex;}
+  .glb-inner{position:relative;max-width:92vw;max-height:92vh;display:flex;flex-direction:column;align-items:center;gap:1rem;}
+  .glb-img-wrap{position:relative;display:flex;align-items:center;justify-content:center;}
+  .glb-img{max-width:88vw;max-height:78vh;object-fit:contain;border:1px solid rgba(155,89,182,0.25);box-shadow:0 0 100px rgba(155,89,182,0.3);transition:opacity 0.3s,transform 0.3s;}
+  .glb-close{position:absolute;top:-3.2rem;right:0;width:40px;height:40px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:var(--cream);font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;z-index:2;}
+  .glb-close:hover{border-color:var(--gold);color:var(--gold);}
+  .glb-nav{position:absolute;top:50%;width:48px;height:48px;border:1px solid rgba(232,197,106,0.35);background:rgba(8,6,8,0.75);color:var(--gold);font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transform:translateY(-50%);transition:all 0.3s;backdrop-filter:blur(12px);z-index:2;}
+  .glb-nav:hover{border-color:var(--gold);background:rgba(74,32,128,0.6);}
+  .glb-prev{left:-3.8rem;} .glb-next{right:-3.8rem;}
+  .glb-counter{font-size:0.68rem;letter-spacing:2px;color:rgba(240,232,245,0.35);}
+  .glb-dots{display:flex;gap:6px;justify-content:center;margin-top:0.5rem;flex-wrap:wrap;max-width:80vw;}
+  .glb-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.15);cursor:pointer;transition:all 0.3s;flex-shrink:0;}
+  .glb-dot.active{background:var(--gold);width:18px;border-radius:3px;}
+
+  /* Gallery strip */
+  #gallery{padding:6rem 0;overflow:hidden;}
+  .gallery-strip{display:flex;gap:1rem;animation:marqueeScroll 28s linear infinite;width:max-content;margin-bottom:1rem;}
+  .gallery-strip.reverse{animation-direction:reverse;animation-duration:33s;}
+  .gallery-img{flex-shrink:0;width:270px;height:195px;overflow:hidden;cursor:pointer;position:relative;}
+  .gallery-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease,filter 0.4s;filter:saturate(0.75) brightness(0.9);}
+  .gallery-img:hover img{transform:scale(1.08);filter:saturate(1.2) brightness(1.05);}
+  .gallery-img-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,6,8,0);transition:background 0.3s;}
+  .gallery-img:hover .gallery-img-overlay{background:rgba(74,32,128,0.35);}
+  .gallery-img-overlay span{width:44px;height:44px;border:1.5px solid rgba(255,255,255,0.7);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;opacity:0;transform:scale(0.5);transition:all 0.35s;}
+  .gallery-img:hover .gallery-img-overlay span{opacity:1;transform:scale(1);}
+
+  /* ─── REELS ─── */
+  #reels{padding:6rem 5%;background:var(--deep);}
+  .reels-container{position:relative;overflow:hidden;max-width:920px;margin:0 auto;}
+  .reels-track{display:flex;gap:1.5rem;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform;}
+  .reel-card{flex-shrink:0;width:200px;height:355px;position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(155,89,182,0.15);transition:transform 0.5s,box-shadow 0.5s;}
+  .reel-card.active{transform:scale(1.06);box-shadow:0 0 50px rgba(155,89,182,0.5),0 0 20px rgba(232,197,106,0.15);border-color:rgba(155,89,182,0.5);z-index:2;}
+  .reel-card video{width:100%;height:100%;object-fit:cover;}
+  .reel-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,6,8,0.92) 0%,transparent 40%);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;}
+  .reel-tag{font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin-bottom:4px;}
+  .reel-title{font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--cream);font-weight:600;}
+  .reel-controls{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:2rem;}
+  .reel-btn{width:42px;height:42px;border:1px solid rgba(155,89,182,0.3);background:rgba(8,6,8,0.8);color:var(--gold);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;backdrop-filter:blur(10px);}
+  .reel-btn:hover{border-color:var(--gold);background:rgba(74,32,128,0.4);}
+  .reel-dots-wrap{display:flex;gap:6px;}
+  .reel-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all 0.3s;}
+  .reel-dot.active{background:var(--gold);width:16px;border-radius:3px;}
+  .reel-ig{text-align:center;margin-top:1.5rem;font-size:0.78rem;color:rgba(240,232,245,0.4);letter-spacing:1px;}
+  .reel-ig a{color:var(--gold);text-decoration:none;}
+
+  /* ─── TESTIMONIALS ─── */
+  #testimonials{padding:6rem 5%;background:linear-gradient(135deg,rgba(74,32,128,0.06),transparent,rgba(232,197,106,0.04));overflow:hidden;}
+  .testi-slider{position:relative;overflow:hidden;}
+  .testi-track{display:flex;transition:transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);}
+  .testi-card{flex-shrink:0;width:100%;max-width:700px;margin:0 auto;text-align:center;padding:3rem;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(20px);position:relative;animation:float 5s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  .testi-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2.5vw,1.45rem);font-style:italic;color:var(--cream);line-height:1.7;margin-bottom:2rem;position:relative;}
+  .testi-quote::before{content:'"';font-size:6rem;color:rgba(155,89,182,0.12);position:absolute;top:-2rem;left:-1rem;font-family:'Cormorant Garamond',serif;line-height:1;}
+  .testi-stars{color:var(--gold);font-size:0.9rem;letter-spacing:4px;margin-bottom:1rem;}
+  .testi-author{font-weight:600;color:var(--gold);font-size:0.88rem;letter-spacing:1px;}
+  .testi-role{font-size:0.72rem;color:rgba(240,232,245,0.35);margin-top:4px;}
+  .testi-dots{display:flex;justify-content:center;gap:8px;margin-top:2rem;}
+  .testi-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.15);cursor:pointer;transition:all 0.3s;}
+  .testi-dot.active{background:var(--gold);width:18px;border-radius:3px;}
+
+  /* ─── REVIEW WRITER ─── */
+  #write-review{padding:6rem 5%;background:linear-gradient(135deg,rgba(45,27,78,0.15),rgba(8,6,8,1),rgba(74,32,128,0.08));}
+  .review-box{max-width:720px;margin:0 auto;background:var(--glass);border:1px solid rgba(155,89,182,0.2);backdrop-filter:blur(20px);padding:3rem;position:relative;overflow:hidden;}
+  .review-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse,rgba(155,89,182,0.05) 0%,transparent 60%);pointer-events:none;}
+  .review-form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.2rem;}
+  .review-field{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.2rem;}
+  .review-field label{font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);}
+  .review-field input,.review-field textarea,.review-field select{background:rgba(255,255,255,0.04);border:1px solid rgba(155,89,182,0.2);color:var(--cream);font-family:'Outfit',sans-serif;font-size:0.88rem;padding:12px 16px;outline:none;transition:border-color 0.3s,box-shadow 0.3s;resize:none;width:100%;}
+  .review-field input:focus,.review-field textarea:focus,.review-field select:focus{border-color:rgba(155,89,182,0.5);box-shadow:0 0 20px rgba(155,89,182,0.1);}
+  .review-field input::placeholder,.review-field textarea::placeholder{color:rgba(240,232,245,0.25);}
+  .review-field select option{background:var(--deep);color:var(--cream);}
+  .star-picker{display:flex;gap:6px;flex-direction:row-reverse;justify-content:flex-end;}
+  .star-picker input{display:none;}
+  .star-picker label{font-size:1.6rem;color:rgba(255,255,255,0.15);cursor:pointer;transition:color 0.15s,transform 0.15s;}
+  .star-picker label:hover,.star-picker label:hover~label,.star-picker input:checked~label{color:var(--gold);}
+  .star-picker label:hover{transform:scale(1.2);}
+  .review-submit{width:100%;padding:16px;background:linear-gradient(135deg,var(--violet),var(--accent));color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+  .review-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold),#c0932a);transform:translateX(-100%);transition:transform 0.4s;}
+  .review-submit:hover::before{transform:translateX(0);}
+  .review-submit span{position:relative;z-index:1;}
+  .review-success{display:none;text-align:center;padding:2rem;background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.25);}
+  .review-success .success-icon{font-size:2.5rem;margin-bottom:1rem;}
+  .review-success h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold);margin-bottom:0.5rem;}
+  .review-success p{color:rgba(240,232,245,0.5);font-size:0.85rem;}
+  .char-count{font-size:0.65rem;color:rgba(240,232,245,0.25);text-align:right;margin-top:4px;}
+
+  /* ─── CONTACT ─── */
+  #contact{padding:6rem 5%;background:var(--deep);}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:1200px;margin:0 auto;align-items:start;}
+  .contact-detail{display:flex;align-items:flex-start;gap:1.2rem;margin-bottom:2rem;}
+  .contact-icon{width:46px;height:46px;background:rgba(74,32,128,0.2);border:1px solid rgba(155,89,182,0.25);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+  .contact-label{font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin-bottom:4px;}
+  .contact-value{color:var(--cream);font-size:0.92rem;line-height:1.6;}
+  .map-embed{width:100%;height:380px;border:1px solid rgba(155,89,182,0.15);filter:grayscale(20%) contrast(1.1);}
+
+  /* ─── CTA ─── */
+  #cta{padding:8rem 5%;text-align:center;position:relative;overflow:hidden;}
+  #cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(74,32,128,0.18) 0%,transparent 70%);animation:ctaPulse 5s ease-in-out infinite;}
+  @keyframes ctaPulse{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:1;transform:scale(1.08);}}
+  .cta-content{position:relative;z-index:1;}
+  .cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;line-height:1.1;color:var(--cream);margin-bottom:1.5rem;}
+  .cta-sub{font-size:0.95rem;color:rgba(240,232,245,0.5);margin-bottom:3rem;letter-spacing:1px;}
+  .cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+  /* ─── FOOTER ─── */
+  footer{padding:2.5rem 5%;border-top:1px solid rgba(155,89,182,0.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+  .footer-logo{font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--gold);}
+  .footer-text{font-size:0.72rem;color:rgba(240,232,245,0.25);letter-spacing:1px;}
+  .footer-socials{display:flex;gap:0.8rem;}
+  .footer-socials a{width:34px;height:34px;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:rgba(240,232,245,0.4);text-decoration:none;font-size:0.85rem;transition:all 0.3s;}
+  .footer-socials a:hover{border-color:var(--gold);color:var(--gold);}
+  .wa-btn{position:fixed;bottom:2rem;right:2rem;z-index:5000;width:56px;height:56px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:1.5rem;animation:waPulse 3s infinite;transition:transform 0.3s;cursor:pointer;}
+  .wa-btn:hover{transform:scale(1.12);}
+  @keyframes waPulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5);}50%{box-shadow:0 4px 40px rgba(37,211,102,0.8),0 0 60px rgba(37,211,102,0.2);}}
+  .wa-ring{position:fixed;bottom:calc(2rem - 8px);right:calc(2rem - 8px);z-index:4999;width:72px;height:72px;border:2px solid rgba(37,211,102,0.4);border-radius:50%;animation:ringPulse 2s infinite;pointer-events:none;}
+  @keyframes ringPulse{0%{transform:scale(1);opacity:0.8;}100%{transform:scale(1.5);opacity:0;}}
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeSlideDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .reveal-left{opacity:0;transform:translateX(-40px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal-left.visible{opacity:1;transform:translateX(0);}
+  .reveal-right{opacity:0;transform:translateX(40px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal-right.visible{opacity:1;transform:translateX(0);}
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width:900px){
+    .contact-grid{grid-template-columns:1fr;}
+    .review-form-row{grid-template-columns:1fr;}
+    .lb-prev{left:-2.5rem;} .lb-next{right:-2.5rem;}
+    .glb-prev{left:-2.5rem;} .glb-next{right:-2.5rem;}
+  }
+  @media(max-width:768px){
+    .nav-links,.nav-order{display:none;}
+    .hamburger{display:flex;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);}
+    .reel-card{width:155px;height:276px;}
+    .lb-prev{left:-2rem;} .lb-next{right:-2rem;}
+    .glb-prev{left:-1.6rem;} .glb-next{right:-1.6rem;}
+    .hero-arrow{width:38px;height:38px;font-size:1rem;}
+    .hero-arrow.left{left:0.7rem;} .hero-arrow.right{right:0.7rem;}
+    .testi-card{padding:2rem 1.2rem;}
+    .testi-card.active-mob{animation:none;}
+    .review-box{padding:2rem 1.2rem;}
+    footer{flex-direction:column;align-items:center;text-align:center;}
+    .cta-btns{flex-direction:column;align-items:center;}
+    .glb-nav{width:36px;height:36px;font-size:1.1rem;}
+    .glb-img{max-width:92vw;max-height:72vh;}
+    .gallery-img{width:180px;height:130px;}
+  }
+  @media(max-width:480px){
+    .reel-card{width:130px;height:230px;}
+    .hero-ctas{flex-direction:column;align-items:center;}
+    .btn-primary,.btn-outline,.btn-glow{width:100%;max-width:280px;text-align:center;}
+    .menu-grid{grid-template-columns:1fr;}
+    .lb-prev{left:-1.2rem;} .lb-next{right:-1.2rem;}
+    .glb-prev{left:-0.8rem;} .glb-next{right:-0.8rem;}
+    #stats{padding:3rem 5%;}
+    .gallery-img{width:145px;height:105px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ══════════════════ MENU LIGHTBOX ══════════════════ -->
+<div id="lightbox">
+  <div class="lb-inner">
+    <div class="lb-counter" id="lbCounter"></div>
+    <button class="lb-close" id="lbClose">✕</button>
+    <button class="lb-nav lb-prev" id="lbPrev">‹</button>
+    <img class="lb-img" id="lbImg" src="" alt="">
+    <button class="lb-nav lb-next" id="lbNext">›</button>
+    <div class="lb-caption">
+      <div id="lbName" style="font-size:1.1rem;"></div>
+      <div class="lb-price-tag" id="lbPrice"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ GALLERY LIGHTBOX ══════════════════ -->
+<div id="galleryLightbox">
+  <div class="glb-inner">
+    <div class="glb-counter" id="glbCounter"></div>
+    <button class="glb-close" id="glbClose">✕</button>
+    <div class="glb-img-wrap">
+      <button class="glb-nav glb-prev" id="glbPrev">‹</button>
+      <img class="glb-img" id="glbImg" src="" alt="Gallery image">
+      <button class="glb-nav glb-next" id="glbNext">›</button>
+    </div>
+    <div class="glb-dots" id="glbDots"></div>
+  </div>
+</div>
+
+<!-- ══════════════════ MOBILE MENU ══════════════════ -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mob-close" id="mobClose">✕</button>
+  <a href="#menu-preview" class="mob-link">Menu</a>
+  <a href="#gallery" class="mob-link">Gallery</a>
+  <a href="#reels" class="mob-link">Reels</a>
+  <a href="#testimonials" class="mob-link">Reviews</a>
+  <a href="#write-review" class="mob-link">Write Review</a>
+  <a href="#contact" class="mob-link">Visit Us</a>
+  <a href="https://wa.me/91XXXXXXXXXX?text=Hi! I want to order from Famous D Cafe" target="_blank" class="mob-order">ORDER NOW</a>
+</div>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Famous <span>D'</span>Cafe</a>
+  <ul class="nav-links">
+    <li><a href="#menu-preview">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reels">Reels</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#write-review">Write Review</a></li>
+    <li><a href="#contact">Visit Us</a></li>
+  </ul>
+  <button class="nav-order" onclick="window.open('https://wa.me/91XXXXXXXXXX?text=Hi! I want to order from Famous D Cafe','_blank')"><span>ORDER NOW</span></button>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section id="hero">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1800&q=85')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1800&q=85')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1800&q=85')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1800&q=85')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=1800&q=85')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1800&q=85')"></div>
+  </div>
+  <button class="hero-arrow left" id="heroPrev">‹</button>
+  <button class="hero-arrow right" id="heroNext">›</button>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Since 2020 · Naihati's Finest ✦</div>
+    <h1 class="hero-title"><span class="line1">Famous</span><span class="line2">D'Cafe</span></h1>
+    <p class="hero-tagline" id="heroTagline">Most Authentic Food in Naihati</p>
+    <div class="hero-ctas">
+      <a href="#full-menu" class="btn-primary">Explore Menu</a>
+      <a href="#contact" class="btn-outline">Find Us</a>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots"></div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span class="scroll-text">SCROLL</span></div>
+</section>
+
+<!-- ══════════════════ STATS ══════════════════ -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item reveal"><div class="stat-num" data-target="3584">0</div><div class="stat-label">Followers</div></div>
+    <div class="stat-item reveal" style="transition-delay:0.1s"><div class="stat-num" data-target="243">0</div><div class="stat-label">Posts & Reels</div></div>
+    <div class="stat-item reveal" style="transition-delay:0.2s"><div class="stat-num">12PM</div><div class="stat-label">Opens Daily</div></div>
+    <div class="stat-item reveal" style="transition-delay:0.3s"><div class="stat-num">11PM</div><div class="stat-label">Closes Daily</div></div>
+  </div>
+</section>
+
+<!-- ══════════════════ MENU MARQUEE ══════════════════ -->
+<section id="menu-preview">
+  <div class="sec-header reveal" style="padding:0 5%">
+    <span class="sec-overline">What We Serve</span>
+    <h2 class="sec-title">Craving <em>Something?</em></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="marquee-track">
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" alt="Pizza"><div class="menu-card-overlay"><div class="menu-card-name">Wood Fire Pizza</div><div class="menu-card-price">₹149</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" alt="Burger"><div class="menu-card-overlay"><div class="menu-card-name">D'Special Burger</div><div class="menu-card-price">₹99</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=400" alt="Momos"><div class="menu-card-overlay"><div class="menu-card-name">Steam Momos</div><div class="menu-card-price">₹79</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400" alt="Coffee"><div class="menu-card-overlay"><div class="menu-card-name">Cold Coffee</div><div class="menu-card-price">₹59</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400" alt="Pasta"><div class="menu-card-overlay"><div class="menu-card-name">Red Sauce Pasta</div><div class="menu-card-price">₹119</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1610614819513-58e34989848b?w=400" alt="Shake"><div class="menu-card-overlay"><div class="menu-card-name">Loaded Shake</div><div class="menu-card-price">₹89</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=400" alt="Sandwich"><div class="menu-card-overlay"><div class="menu-card-name">Club Sandwich</div><div class="menu-card-price">₹79</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=400" alt="Fries"><div class="menu-card-overlay"><div class="menu-card-name">Loaded Fries</div><div class="menu-card-price">₹69</div></div></div>
+    <!-- duplicates for seamless loop -->
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" alt="Pizza"><div class="menu-card-overlay"><div class="menu-card-name">Wood Fire Pizza</div><div class="menu-card-price">₹149</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" alt="Burger"><div class="menu-card-overlay"><div class="menu-card-name">D'Special Burger</div><div class="menu-card-price">₹99</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=400" alt="Momos"><div class="menu-card-overlay"><div class="menu-card-name">Steam Momos</div><div class="menu-card-price">₹79</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400" alt="Coffee"><div class="menu-card-overlay"><div class="menu-card-name">Cold Coffee</div><div class="menu-card-price">₹59</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400" alt="Pasta"><div class="menu-card-overlay"><div class="menu-card-name">Red Sauce Pasta</div><div class="menu-card-price">₹119</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1610614819513-58e34989848b?w=400" alt="Shake"><div class="menu-card-overlay"><div class="menu-card-name">Loaded Shake</div><div class="menu-card-price">₹89</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=400" alt="Sandwich"><div class="menu-card-overlay"><div class="menu-card-name">Club Sandwich</div><div class="menu-card-price">₹79</div></div></div>
+    <div class="menu-card"><img src="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=400" alt="Fries"><div class="menu-card-overlay"><div class="menu-card-name">Loaded Fries</div><div class="menu-card-price">₹69</div></div></div>
+  </div>
+  <div class="menu-preview-cta reveal"><a href="#full-menu" class="btn-primary">View Full Menu ↓</a></div>
+</section>
+
+<!-- ══════════════════ FULL MENU ══════════════════ -->
+<section id="full-menu">
+  <div class="sec-header reveal">
+    <span class="sec-overline">Full Menu</span>
+    <h2 class="sec-title">Every <em>Bite</em> Tells a Story</h2>
+    <div class="sec-line"></div>
+    <p style="font-size:0.75rem;color:rgba(240,232,245,0.35);margin-top:1rem;letter-spacing:1px;">🖼️ Tap any image to open gallery</p>
+  </div>
+  <div class="menu-categories reveal">
+    <button class="cat-btn active" onclick="filterMenu('all',this)">All Items</button>
+    <button class="cat-btn" onclick="filterMenu('snacks',this)">Snacks</button>
+    <button class="cat-btn" onclick="filterMenu('mains',this)">Mains</button>
+    <button class="cat-btn" onclick="filterMenu('drinks',this)">Drinks</button>
+    <button class="cat-btn" onclick="filterMenu('special',this)">Specials</button>
+  </div>
+  <div class="menu-grid" id="menuGrid">
+
+    <div class="menu-item reveal" data-cat="snacks" data-img="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=1200" data-name="Steam Momos" data-price="₹79">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=600" alt="Momos"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">Steam Momos</div><div class="item-price">₹79</div></div><p class="item-desc">Soft dumplings filled with spiced veggies or chicken, served with red chutney</p><span class="item-badge">Bestseller</span></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.08s" data-cat="snacks" data-img="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=1200" data-name="Loaded Fries" data-price="₹69">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=600" alt="Fries"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">Loaded Fries</div><div class="item-price">₹69</div></div><p class="item-desc">Crispy golden fries topped with cheese sauce, jalapeños & secret seasoning</p></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.14s" data-cat="snacks" data-img="https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=1200" data-name="Club Sandwich" data-price="₹79">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=600" alt="Sandwich"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">Club Sandwich</div><div class="item-price">₹79</div></div><p class="item-desc">Triple-decker toasted bread with fresh veggies, mayo & grilled chicken</p></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.2s" data-cat="mains" data-img="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200" data-name="D'Cafe Special Pizza" data-price="₹149">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" alt="Pizza"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">D'Cafe Special Pizza</div><div class="item-price">₹149</div></div><p class="item-desc">Thin crust loaded with mozzarella, veggies & our signature red sauce</p><span class="item-badge">Chef's Pick</span></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.26s" data-cat="mains" data-img="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200" data-name="D'Special Burger" data-price="₹99">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600" alt="Burger"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">D'Special Burger</div><div class="item-price">₹99</div></div><p class="item-desc">Double patty smash burger with caramelized onion, cheese & smoky sauce</p><span class="item-badge">Must Try</span></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.32s" data-cat="mains" data-img="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=1200" data-name="Red Sauce Pasta" data-price="₹119">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600" alt="Pasta"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">Red Sauce Pasta</div><div class="item-price">₹119</div></div><p class="item-desc">Al dente penne in rich tomato-basil sauce with herbs & parmesan</p></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.38s" data-cat="drinks" data-img="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200" data-name="Cold Coffee" data-price="₹59">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600" alt="Coffee"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">Cold Coffee</div><div class="item-price">₹59</div></div><p class="item-desc">Creamy blended cold coffee with a shot of espresso & vanilla ice cream</p><span class="item-badge">Fan Fav</span></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.44s" data-cat="drinks" data-img="https://images.unsplash.com/photo-1610614819513-58e34989848b?w=1200" data-name="Loaded Milkshake" data-price="₹89">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1610614819513-58e34989848b?w=600" alt="Shake"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">Loaded Milkshake</div><div class="item-price">₹89</div></div><p class="item-desc">Thick creamy shakes in Chocolate, Strawberry, Oreo & Butterscotch</p></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.5s" data-cat="drinks" data-img="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=1200" data-name="Fresh Lemonade" data-price="₹39">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600" alt="Lemonade"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">Fresh Lemonade</div><div class="item-price">₹39</div></div><p class="item-desc">Freshly squeezed mint lemonade — sweet, tangy, refreshing</p></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.56s" data-cat="special" data-img="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200" data-name="D'Cafe Platter" data-price="₹199">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" alt="Platter"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">D'Cafe Platter</div><div class="item-price">₹199</div></div><p class="item-desc">A sharing platter with fries, momos, mini pizza bites & dipping sauces</p><span class="item-badge">For 2</span></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.62s" data-cat="special" data-img="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=1200" data-name="Spicy Maggi Bowl" data-price="₹49">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=600" alt="Maggi"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">Spicy Maggi Bowl</div><div class="item-price">₹49</div></div><p class="item-desc">Street-style Maggi with veggies, egg & our homemade spice blend</p><span class="item-badge">Desi Fav</span></div>
+    </div>
+
+    <div class="menu-item reveal" style="transition-delay:0.68s" data-cat="mains" data-img="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=1200" data-name="Veg Thali Box" data-price="₹129">
+      <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600" alt="Thali"><div class="img-preview-btn" onclick="openLightbox(this)"><div class="img-preview-icon">🔍</div></div></div>
+      <div class="menu-item-body"><div class="item-top"><div class="item-name">Veg Thali Box</div><div class="item-price">₹129</div></div><p class="item-desc">Rice, dal, sabzi, roti & sweet — full homestyle meal</p></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ GALLERY ══════════════════ -->
+<section id="gallery">
+  <div class="sec-header reveal" style="padding:0 5%;margin-bottom:3rem;">
+    <span class="sec-overline">Vibes & Moments</span>
+    <h2 class="sec-title">Inside <em>D'Cafe</em></h2>
+    <div class="sec-line"></div>
+    <p style="font-size:0.75rem;color:rgba(240,232,245,0.35);margin-top:1rem;letter-spacing:1px;">📷 Tap any photo to open gallery</p>
+  </div>
+  <div class="gallery-strip" id="galleryStrip1">
+    <div class="gallery-img" onclick="openGallery(0)"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=500" alt="cafe"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(1)"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" alt="food"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(2)"><img src="https://images.unsplash.com/photo-1470338745628-171cf53de3a8?w=500" alt="food"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(3)"><img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500" alt="burger"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(4)"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500" alt="coffee"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(5)"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500" alt="interior"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <!-- duplicates -->
+    <div class="gallery-img" onclick="openGallery(0)"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=500" alt="cafe"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(1)"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" alt="food"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(2)"><img src="https://images.unsplash.com/photo-1470338745628-171cf53de3a8?w=500" alt="food"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(3)"><img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500" alt="burger"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(4)"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500" alt="coffee"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(5)"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500" alt="interior"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+  </div>
+  <div class="gallery-strip reverse" style="margin-top:1rem;">
+    <div class="gallery-img" onclick="openGallery(6)"><img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?w=500" alt="drinks"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(7)"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" alt="burger"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(8)"><img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=500" alt="pasta"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(9)"><img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=500" alt="momos"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(10)"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=500" alt="coffee"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(11)"><img src="https://images.unsplash.com/photo-1481833761820-0509d3217039?w=500" alt="night"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <!-- duplicates -->
+    <div class="gallery-img" onclick="openGallery(6)"><img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?w=500" alt="drinks"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(7)"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" alt="burger"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(8)"><img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=500" alt="pasta"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(9)"><img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=500" alt="momos"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(10)"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=500" alt="coffee"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+    <div class="gallery-img" onclick="openGallery(11)"><img src="https://images.unsplash.com/photo-1481833761820-0509d3217039?w=500" alt="night"><div class="gallery-img-overlay"><span>🔍</span></div></div>
+  </div>
+</section>
+
+<!-- ══════════════════ REELS ══════════════════ -->
+<section id="reels">
+  <div class="sec-header reveal">
+    <span class="sec-overline">@famous_d_cafe_naihati</span>
+    <h2 class="sec-title">Watch Our <em>Reels</em></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="reels-container" id="reelsContainer">
+    <div class="reels-track" id="reelsTrack">
+      <div class="reel-card"><video autoplay muted loop playsinline src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-pizza-cooking-in-the-oven-10481-large.mp4"></video><div class="reel-overlay"><div class="reel-tag">🍕 Food</div><div class="reel-title">30 Days Pizza Challenge</div></div></div>
+      <div class="reel-card active"><video autoplay muted loop playsinline src="https://assets.mixkit.co/videos/preview/mixkit-pouring-fresh-coffee-from-a-glass-jar-into-a-cup-39882-large.mp4"></video><div class="reel-overlay"><div class="reel-tag">☕ Drinks</div><div class="reel-title">Best Cold Coffee in Town</div></div></div>
+      <div class="reel-card"><video autoplay muted loop playsinline src="https://assets.mixkit.co/videos/preview/mixkit-cooking-a-burger-21402-large.mp4"></video><div class="reel-overlay"><div class="reel-tag">🍔 Special</div><div class="reel-title">D'Special Burger · Day 88</div></div></div>
+      <div class="reel-card"><video autoplay muted loop playsinline src="https://assets.mixkit.co/videos/preview/mixkit-drizzling-sauce-over-a-burger-21462-large.mp4"></video><div class="reel-overlay"><div class="reel-tag">🔥 Viral</div><div class="reel-title">Naihati's Hottest Spot</div></div></div>
+    </div>
+  </div>
+  <div class="reel-controls">
+    <button class="reel-btn" id="reelPrev">‹</button>
+    <div class="reel-dots-wrap" id="reelDots"></div>
+    <button class="reel-btn" id="reelNext">›</button>
+  </div>
+  <p class="reel-ig reveal">Follow us: <a href="https://www.instagram.com/famous_d_cafe_naihati/" target="_blank">@famous_d_cafe_naihati</a></p>
+</section>
+
+<!-- ══════════════════ TESTIMONIALS ══════════════════ -->
+<section id="testimonials">
+  <div class="sec-header reveal">
+    <span class="sec-overline">What People Say</span>
+    <h2 class="sec-title">Real <em>Love</em> from Naihati</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="testi-slider">
+    <div class="testi-track" id="testiTrack">
+      <div style="width:100%;flex-shrink:0;display:flex;justify-content:center;padding:0 5%;"><div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">Famous D'Cafe is literally Naihati's hidden gem. The burgers are insane, the vibe is fire!</p><div class="testi-author">Rahul Sharma</div><div class="testi-role">Regular Customer · Naihati</div></div></div>
+      <div style="width:100%;flex-shrink:0;display:flex;justify-content:center;padding:0 5%;"><div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">Best cold coffee I've had anywhere near Kolkata. Deepak bhai knows how to make you feel at home!</p><div class="testi-author">Priya Dey</div><div class="testi-role">Food Blogger · West Bengal</div></div></div>
+      <div style="width:100%;flex-shrink:0;display:flex;justify-content:center;padding:0 5%;"><div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">Came for the Zomato reviews, stayed because the food is genuinely unbeatable. Amazing reels too!</p><div class="testi-author">Amit Roy</div><div class="testi-role">Verified Order · Zomato</div></div></div>
+      <div style="width:100%;flex-shrink:0;display:flex;justify-content:center;padding:0 5%;"><div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">Weekend plans = Famous D'Cafe. The loaded platter is perfect for sharing with friends!</p><div class="testi-author">Sneha Banerjee</div><div class="testi-role">Instagram Follower · 3.5K+</div></div></div>
+    </div>
+    <div class="testi-dots" id="testiDots"></div>
+  </div>
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="#write-review" class="btn-outline">✍️ Write Your Review</a>
+  </div>
+</section>
+
+<!-- ══════════════════ REVIEW WRITER ══════════════════ -->
+<section id="write-review">
+  <div class="sec-header reveal">
+    <span class="sec-overline">Share Your Experience</span>
+    <h2 class="sec-title">Write a <em>Review</em></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="review-box reveal">
+    <div id="reviewForm">
+      <div class="review-form-row">
+        <div class="review-field">
+          <label>Your Name</label>
+          <input type="text" id="rName" placeholder="e.g. Rahul Sharma" maxlength="50">
+        </div>
+        <div class="review-field">
+          <label>From (Location)</label>
+          <input type="text" id="rLocation" placeholder="e.g. Naihati, WB" maxlength="40">
+        </div>
+      </div>
+      <div class="review-form-row">
+        <div class="review-field">
+          <label>Your Favourite Item</label>
+          <select id="rItem">
+            <option value="">Select a dish...</option>
+            <option>Steam Momos</option>
+            <option>Loaded Fries</option>
+            <option>Club Sandwich</option>
+            <option>D'Cafe Special Pizza</option>
+            <option>D'Special Burger</option>
+            <option>Red Sauce Pasta</option>
+            <option>Cold Coffee</option>
+            <option>Loaded Milkshake</option>
+            <option>Fresh Lemonade</option>
+            <option>D'Cafe Platter</option>
+            <option>Spicy Maggi Bowl</option>
+            <option>Veg Thali Box</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="review-field">
+          <label>Overall Rating</label>
+          <div class="star-picker">
+            <input type="radio" id="s5" name="stars" value="5"><label for="s5">★</label>
+            <input type="radio" id="s4" name="stars" value="4"><label for="s4">★</label>
+            <input type="radio" id="s3" name="stars" value="3"><label for="s3">★</label>
+            <input type="radio" id="s2" name="stars" value="2"><label for="s2">★</label>
+            <input type="radio" id="s1" name="stars" value="1"><label for="s1">★</label>
+          </div>
+        </div>
+      </div>
+      <div class="review-field">
+        <label>Your Review</label>
+        <textarea id="rText" rows="5" placeholder="Tell us about your experience at Famous D'Cafe..." maxlength="400" oninput="updateCharCount()"></textarea>
+        <div class="char-count" id="charCount">0 / 400</div>
+      </div>
+      <div id="reviewError" style="color:#e74c3c;font-size:0.78rem;margin-bottom:1rem;display:none;"></div>
+      <button class="review-submit" onclick="submitReview()"><span>Submit Review ✦</span></button>
+    </div>
+    <div class="review-success" id="reviewSuccess">
+      <div class="success-icon">🎉</div>
+      <h3>Thank you for your review!</h3>
+      <p>Your review has been submitted. We love hearing from you!</p>
+      <button class="btn-outline" style="margin-top:1.5rem;cursor:pointer;" onclick="resetReviewForm()">Write Another Review</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CONTACT ══════════════════ -->
+<section id="contact">
+  <div class="sec-header reveal">
+    <span class="sec-overline">Find Us</span>
+    <h2 class="sec-title">Visit <em>D'Cafe</em></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="reveal-left">
+      <div class="contact-detail"><div class="contact-icon">📍</div><div><div class="contact-label">Location</div><div class="contact-value">Jagabandhu Sweets More, Naihati<br>West Bengal, India</div></div></div>
+      <div class="contact-detail"><div class="contact-icon">🕐</div><div><div class="contact-label">Opening Hours</div><div class="contact-value">Monday – Sunday<br>12:00 PM – 11:00 PM</div></div></div>
+      <div class="contact-detail"><div class="contact-icon">📱</div><div><div class="contact-label">Instagram</div><div class="contact-value"><a href="https://www.instagram.com/famous_d_cafe_naihati/" target="_blank" style="color:var(--gold);text-decoration:none;">@famous_d_cafe_naihati</a></div></div></div>
+      <div class="contact-detail"><div class="contact-icon">🍔</div><div><div class="contact-label">Order Online</div><div class="contact-value">Available on Zomato & Swiggy</div></div></div>
+      <a href="https://maps.google.com/?q=Jagabandhu+Sweets+More+Naihati" target="_blank" class="btn-primary" style="display:inline-block;text-align:center;width:fit-content;margin-top:1rem;cursor:pointer;">Get Directions →</a>
+    </div>
+    <div class="reveal-right">
+      <iframe class="map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.6!2d88.4195!3d22.8876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f88ab5b5b5b5b5%3A0x0!2sJagabandhu+Sweets+More%2C+Naihati!5e0!3m2!1sen!2sin!4v1699999999999!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" frameborder="0"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CTA ══════════════════ -->
+<section id="cta">
+  <div class="cta-content">
+    <p class="sec-overline" style="margin-bottom:1rem;">Don't just scroll — come eat!</p>
+    <h2 class="cta-title reveal">Your Next<br><em style="font-style:italic;background:linear-gradient(135deg,var(--gold),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Favourite Bite</em><br>is Waiting</h2>
+    <p class="cta-sub reveal">Open 12 PM – 11 PM · Jagabandhu Sweets More, Naihati</p>
+    <div class="cta-btns reveal">
+      <a href="https://wa.me/91XXXXXXXXXX?text=Hi! I'd like to order from Famous D Cafe" target="_blank" class="btn-glow">Order on WhatsApp</a>
+      <a href="https://www.instagram.com/famous_d_cafe_naihati/" target="_blank" class="btn-outline">Follow on Instagram</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="footer-logo">Famous D'Cafe</div>
+  <div class="footer-text">© 2026 Famous D'Cafe Naihati · All Rights Reserved</div>
+  <div class="footer-socials">
+    <a href="https://www.instagram.com/famous_d_cafe_naihati/" target="_blank" title="Instagram">📷</a>
+    <a href="https://wa.me/91XXXXXXXXXX" target="_blank" title="WhatsApp">💬</a>
+    <a href="#write-review" title="Write Review">⭐</a>
+  </div>
+</footer>
+
+<a class="wa-btn" href="https://wa.me/91XXXXXXXXXX?text=Hi! I'd like to order from Famous D Cafe" target="_blank">💬</a>
+<div class="wa-ring"></div>
+
+<script>
+/* ══════ CURSOR ══════ */
+const cursor=document.getElementById('cursor'),cursorRing=document.getElementById('cursorRing');
+if(cursor){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;cursorRing.style.left=rx+'px';cursorRing.style.top=ry+'px';requestAnimationFrame(animRing);}
+  animRing();
+  document.querySelectorAll('a,button,.menu-card,.cat-btn,.reel-card,.menu-item,.img-preview-btn,.gallery-img').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2.5)';cursorRing.style.transform='translate(-50%,-50%) scale(1.5)';});
+    el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';cursorRing.style.transform='translate(-50%,-50%) scale(1)';});
+  });
+}
+
+/* ══════ NAV SCROLL ══════ */
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>50));
+
+/* ══════ HAMBURGER MOBILE MENU ══════ */
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+const mobClose=document.getElementById('mobClose');
+
+function openMob(){
+  hamburger.classList.add('open');
+  mobileMenu.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMob(){
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow='';
+}
+
+hamburger.addEventListener('click',()=>{
+  if(mobileMenu.classList.contains('open'))closeMob();else openMob();
+});
+mobClose.addEventListener('click',closeMob);
+
+document.querySelectorAll('.mobile-menu .mob-link, .mobile-menu .mob-order').forEach(link=>{
+  link.addEventListener('click',()=>{
+    closeMob();
+  });
+});
+
+/* ══════ HERO SLIDESHOW ══════ */
+const hSlides=document.querySelectorAll('.hero-slide');
+const hDotsCont=document.getElementById('heroDots');
+let hIdx=0,hTimer;
+hSlides.forEach((_,i)=>{const d=document.createElement('div');d.className='hero-dot'+(i===0?' active':'');d.onclick=()=>goH(i);hDotsCont.appendChild(d);});
+function goH(n){
+  hSlides[hIdx].classList.remove('active');
+  document.querySelectorAll('.hero-dot')[hIdx].classList.remove('active');
+  hIdx=(n+hSlides.length)%hSlides.length;
+  hSlides[hIdx].classList.add('active');
+  document.querySelectorAll('.hero-dot')[hIdx].classList.add('active');
+  clearInterval(hTimer);hTimer=setInterval(()=>goH(hIdx+1),4500);
+}
+hTimer=setInterval(()=>goH(hIdx+1),4500);
+document.getElementById('heroPrev').onclick=()=>goH(hIdx-1);
+document.getElementById('heroNext').onclick=()=>goH(hIdx+1);
+let hsx=0;
+const heroEl=document.getElementById('hero');
+heroEl.addEventListener('touchstart',e=>{hsx=e.touches[0].clientX;},{passive:true});
+heroEl.addEventListener('touchend',e=>{const d=hsx-e.changedTouches[0].clientX;if(Math.abs(d)>40){d>0?goH(hIdx+1):goH(hIdx-1);}});
+
+/* ══════ HERO TAGLINE ══════ */
+const tgs=['Most Authentic Food in Naihati','Where Every Bite Feels Like Home',"Naihati's Favourite Cafe",'Open 12 PM – 11 PM · Daily'];
+let ti=0;const tgEl=document.getElementById('heroTagline');
+setInterval(()=>{
+  tgEl.style.cssText='opacity:0;transform:translateY(-14px);transition:all 0.4s ease;';
+  setTimeout(()=>{ti=(ti+1)%tgs.length;tgEl.textContent=tgs[ti];tgEl.style.cssText='opacity:0;transform:translateY(14px);transition:none;';requestAnimationFrame(()=>{tgEl.style.cssText='opacity:1;transform:translateY(0);transition:all 0.5s ease;';});},380);
+},3200);
+
+/* ══════ MENU LIGHTBOX ══════ */
+const lb=document.getElementById('lightbox');
+const lbImg=document.getElementById('lbImg');
+const lbName=document.getElementById('lbName');
+const lbPrice=document.getElementById('lbPrice');
+const lbCounter=document.getElementById('lbCounter');
+let lbList=[],lbCur=0;
+
+function buildList(){
+  lbList=[];
+  document.querySelectorAll('.menu-item[data-img]').forEach(item=>{
+    if(item.style.display==='none')return;
+    lbList.push({img:item.dataset.img,name:item.dataset.name,price:item.dataset.price,el:item});
+  });
+}
+
+function openLightbox(btn){
+  buildList();
+  const mi=btn.closest('.menu-item');
+  lbCur=lbList.findIndex(x=>x.el===mi);
+  if(lbCur<0)lbCur=0;
+  showLb(lbCur);
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function showLb(n){
+  lbCur=(n+lbList.length)%lbList.length;
+  const item=lbList[lbCur];
+  lbImg.style.cssText='opacity:0;transform:scale(0.9);';
+  setTimeout(()=>{
+    lbImg.src=item.img;
+    lbImg.style.cssText='opacity:1;transform:scale(1);transition:all 0.4s ease;';
+  },120);
+  lbName.textContent=item.name;
+  lbPrice.textContent=item.price;
+  lbCounter.textContent=(lbCur+1)+' / '+lbList.length;
+}
+
+document.getElementById('lbClose').onclick=()=>{lb.classList.remove('open');document.body.style.overflow='';};
+document.getElementById('lbPrev').onclick=()=>showLb(lbCur-1);
+document.getElementById('lbNext').onclick=()=>showLb(lbCur+1);
+lb.addEventListener('click',e=>{if(e.target===lb){lb.classList.remove('open');document.body.style.overflow='';}});
+let lbSx=0;
+lb.addEventListener('touchstart',e=>{lbSx=e.touches[0].clientX;},{passive:true});
+lb.addEventListener('touchend',e=>{const d=lbSx-e.changedTouches[0].clientX;if(Math.abs(d)>40){d>0?showLb(lbCur+1):showLb(lbCur-1);}});
+
+/* ══════ GALLERY LIGHTBOX ══════ */
+const galleryImages=[
+  'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200',
+  'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200',
+  'https://images.unsplash.com/photo-1470338745628-171cf53de3a8?w=1200',
+  'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=1200',
+  'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200',
+  'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200',
+  'https://images.unsplash.com/photo-1525610553991-2bede1a236e2?w=1200',
+  'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200',
+  'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=1200',
+  'https://images.unsplash.com/photo-1541014741259-de529411b96a?w=1200',
+  'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1200',
+  'https://images.unsplash.com/photo-1481833761820-0509d3217039?w=1200'
+];
+
+const glb=document.getElementById('galleryLightbox');
+const glbImgEl=document.getElementById('glbImg');
+const glbCounter=document.getElementById('glbCounter');
+const glbDotsEl=document.getElementById('glbDots');
+let glbCur=0;
+
+// Build dots
+galleryImages.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='glb-dot'+(i===0?' active':'');
+  d.onclick=()=>showGlb(i);
+  glbDotsEl.appendChild(d);
+});
+
+function openGallery(idx){
+  glbCur=idx;
+  showGlb(glbCur);
+  glb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function showGlb(n){
+  glbCur=(n+galleryImages.length)%galleryImages.length;
+  glbImgEl.style.cssText='opacity:0;transform:scale(0.92);transition:none;';
+  setTimeout(()=>{
+    glbImgEl.src=galleryImages[glbCur];
+    glbImgEl.style.cssText='opacity:1;transform:scale(1);transition:opacity 0.35s ease,transform 0.35s ease;';
+  },100);
+  glbCounter.textContent=(glbCur+1)+' / '+galleryImages.length;
+  document.querySelectorAll('.glb-dot').forEach((d,i)=>d.classList.toggle('active',i===glbCur));
+}
+
+document.getElementById('glbClose').onclick=()=>{glb.classList.remove('open');document.body.style.overflow='';};
+document.getElementById('glbPrev').onclick=()=>showGlb(glbCur-1);
+document.getElementById('glbNext').onclick=()=>showGlb(glbCur+1);
+glb.addEventListener('click',e=>{if(e.target===glb){glb.classList.remove('open');document.body.style.overflow='';}});
+let glbSx=0;
+glb.addEventListener('touchstart',e=>{glbSx=e.touches[0].clientX;},{passive:true});
+glb.addEventListener('touchend',e=>{const d=glbSx-e.changedTouches[0].clientX;if(Math.abs(d)>40){d>0?showGlb(glbCur+1):showGlb(glbCur-1);}});
+
+// Close both lightboxes on Escape
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    lb.classList.remove('open');
+    glb.classList.remove('open');
+    document.body.style.overflow='';
+  }
+  if(lb.classList.contains('open')){
+    if(e.key==='ArrowRight')showLb(lbCur+1);
+    if(e.key==='ArrowLeft')showLb(lbCur-1);
+  }
+  if(glb.classList.contains('open')){
+    if(e.key==='ArrowRight')showGlb(glbCur+1);
+    if(e.key==='ArrowLeft')showGlb(glbCur-1);
+  }
+});
+
+/* ══════ REELS SWIPE ══════ */
+const reelsTrack=document.getElementById('reelsTrack');
+const rCards=document.querySelectorAll('.reel-card');
+const rDotsCont=document.getElementById('reelDots');
+const CARD_W=200,CARD_G=24;
+let rIdx=1,rAuto;
+rCards.forEach((_,i)=>{const d=document.createElement('div');d.className='reel-dot'+(i===1?' active':'');d.onclick=()=>goR(i);rDotsCont.appendChild(d);});
+
+function goR(n){
+  rCards.forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.reel-dot').forEach(d=>d.classList.remove('active'));
+  rIdx=(n+rCards.length)%rCards.length;
+  rCards[rIdx].classList.add('active');
+  document.querySelectorAll('.reel-dot')[rIdx].classList.add('active');
+  const cw=document.getElementById('reelsContainer').offsetWidth;
+  const off=(CARD_W+CARD_G)*rIdx-(cw/2)+(CARD_W/2);
+  reelsTrack.style.transform=`translateX(${-Math.max(0,off)}px)`;
+  clearInterval(rAuto);rAuto=setInterval(()=>goR(rIdx+1),3800);
+}
+goR(1);
+document.getElementById('reelPrev').onclick=()=>goR(rIdx-1);
+document.getElementById('reelNext').onclick=()=>goR(rIdx+1);
+let rSx=0;
+const rCont=document.getElementById('reelsContainer');
+rCont.addEventListener('touchstart',e=>{rSx=e.touches[0].clientX;},{passive:true});
+rCont.addEventListener('touchend',e=>{const d=rSx-e.changedTouches[0].clientX;if(Math.abs(d)>30){d>0?goR(rIdx+1):goR(rIdx-1);}});
+
+/* ══════ TESTIMONIALS ══════ */
+const tTrack=document.getElementById('testiTrack');
+const tTotal=tTrack.children.length;
+let tCur=0;
+const tDotsCont=document.getElementById('testiDots');
+for(let i=0;i<tTotal;i++){const d=document.createElement('div');d.className='testi-dot'+(i===0?' active':'');d.onclick=()=>goT(i);tDotsCont.appendChild(d);}
+function goT(n){tCur=n;tTrack.style.transform=`translateX(-${n*100}%)`;document.querySelectorAll('.testi-dot').forEach((d,i)=>d.classList.toggle('active',i===n));}
+setInterval(()=>goT((tCur+1)%tTotal),4500);
+// touch swipe testimonials
+let tSx=0;
+tTrack.parentElement.addEventListener('touchstart',e=>{tSx=e.touches[0].clientX;},{passive:true});
+tTrack.parentElement.addEventListener('touchend',e=>{const d=tSx-e.changedTouches[0].clientX;if(Math.abs(d)>40){d>0?goT((tCur+1)%tTotal):goT((tCur-1+tTotal)%tTotal);}});
+
+/* ══════ MENU FILTER ══════ */
+function filterMenu(cat,btn){
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('.menu-item').forEach(item=>{
+    const show=cat==='all'||item.dataset.cat===cat;
+    item.style.display=show?'':'none';
+    if(show){item.classList.remove('visible');setTimeout(()=>item.classList.add('visible'),60);}
+  });
+  buildList();
+}
+
+/* ══════ REVIEW FORM ══════ */
+function updateCharCount(){
+  const txt=document.getElementById('rText').value;
+  document.getElementById('charCount').textContent=txt.length+' / 400';
+}
+
+function submitReview(){
+  const name=document.getElementById('rName').value.trim();
+  const text=document.getElementById('rText').value.trim();
+  const stars=document.querySelector('input[name="stars"]:checked');
+  const errEl=document.getElementById('reviewError');
+
+  if(!name){errEl.textContent='Please enter your name.';errEl.style.display='block';return;}
+  if(!stars){errEl.textContent='Please select a star rating.';errEl.style.display='block';return;}
+  if(text.length<10){errEl.textContent='Please write at least 10 characters in your review.';errEl.style.display='block';return;}
+  errEl.style.display='none';
+
+  // Show success
+  document.getElementById('reviewForm').style.display='none';
+  document.getElementById('reviewSuccess').style.display='block';
+}
+
+function resetReviewForm(){
+  document.getElementById('rName').value='';
+  document.getElementById('rLocation').value='';
+  document.getElementById('rItem').value='';
+  document.getElementById('rText').value='';
+  document.getElementById('charCount').textContent='0 / 400';
+  document.querySelectorAll('input[name="stars"]').forEach(r=>r.checked=false);
+  document.getElementById('reviewError').style.display='none';
+  document.getElementById('reviewForm').style.display='block';
+  document.getElementById('reviewSuccess').style.display='none';
+}
+
+/* ══════ REVEAL ══════ */
+const revObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:0.1});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>revObs.observe(el));
+
+/* ══════ COUNTERS ══════ */
+const cntObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){const el=x.target.querySelector('.stat-num[data-target]');if(el&&!el.dataset.done){el.dataset.done='1';const t=+el.dataset.target;let c=0;const s=Math.ceil(t/60);const iv=setInterval(()=>{c=Math.min(c+s,t);el.textContent=c.toLocaleString('en-IN');if(c>=t)clearInterval(iv);},25);}}});},{threshold:0.5});
+document.querySelectorAll('.stat-item').forEach(el=>cntObs.observe(el));
+
+/* ══════ SMOOTH SCROLL ══════ */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});
+});
+</script>
+</body>
+</html>
